@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.IO;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Billing
@@ -12,6 +14,7 @@ namespace Billing
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
+				.ConfigureServices(services => services.AddAutofac())
 				.UseStartup<Startup>();
 	}
 }

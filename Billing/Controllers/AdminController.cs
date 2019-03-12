@@ -1,4 +1,5 @@
-﻿using Billing.Models.Service;
+﻿using System.Threading.Tasks;
+using Billing.Models.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
@@ -12,9 +13,9 @@ namespace Billing.Controllers
 			_clientService = client_service;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var clients = _clientService.Get();
+			var clients = await _clientService.Get();
 			return View(clients);
 		}
 	}
