@@ -10,17 +10,17 @@ namespace Billing.Models.Repository
 	{
 		public ClientRepository(IConfiguration config) : base(config) { }
 
-		public async Task<int> Create(string name)
+		public async Task<int> Create(Client client)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
 				return await conn.ExecuteScalarAsync<int>($@"
-insert	into client (name)
-values	({nameof(name)})
+insert	client (name, email, address, phone)
+values	(@{nameof(Client.Name)}, @{nameof(Client.Email)}, @{nameof(Client.Address)}, @{nameof(Client.Phone)})
 
 select	scope_identity()
-", new { name });
+", new { client.Name, client.Email, client.Address, client.Phone });
 			}
 		}
 
@@ -31,22 +31,28 @@ select	scope_identity()
 				conn.Open();
 				return await conn.QueryAsync<Client>($@"
 select	client	{nameof(Client.Id)},
-		name	{nameof(Client.Name)}
+		name	{nameof(Client.Name)},
+		email	{nameof(Client.Email)},
+		address	{nameof(Client.Address)},
+		phone	{nameof(Client.Phone)}
 from	client
 ");
 			}
 		}
 
-		public async Task<IEnumerable<Client>> GetClient(int id)
+		public async Task<Client> GetClient(int id)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
-				return await conn.QueryAsync<Client>($@"
+				return await conn.ExecuteScalarAsync<Client>($@"
 select	client	{nameof(Client.Id)},
-		name	{nameof(Client.Name)}
+		name	{nameof(Client.Name)},
+		email	{nameof(Client.Email)},
+		address	{nameof(Client.Address)},
+		phone	{nameof(Client.Phone)}
 from	client
-where	client = {nameof(id)}
+where	client = @{nameof(id)}
 ", new { id });
 			}
 		}
@@ -58,9 +64,12 @@ where	client = {nameof(id)}
 				conn.Open();
 				await conn.ExecuteAsync($@"
 update	client
-set		name	= {nameof(Client.Name)}
-where	client	= {nameof(Client.Id)}
-", new { client });
+set		name	= {nameof(Client.Name)},
+		email	= {nameof(Client.Email)},
+		address	= {nameof(Client.Address)},
+		phone	= {nameof(Client.Phone)}
+where	client	= @{nameof(client.Id)}
+", new { client.Name, client.Email, client.Address, client.Phone, client.Id });
 			}
 		}
 
@@ -71,7 +80,7 @@ where	client	= {nameof(Client.Id)}
 				conn.Open();
 				await conn.ExecuteAsync($@"
 delete	from client
-where	client = {nameof(id)}
+where	client = @{nameof(id)}
 ", new { id });
 			}
 		}

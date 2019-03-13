@@ -6,13 +6,13 @@ namespace Billing.Models.Service
 {
 	public interface IClientService
 	{
-		Task<int> Create(string name);
+		Task<int> Create(Client client);
 
 		Task Delete(int id);
 
 		Task<IEnumerable<Client>> Get();
 
-		Task<IEnumerable<Client>> GetClient(int id);
+		Task<Client> GetClient(int id);
 
 		Task Update(Client client);
 	}

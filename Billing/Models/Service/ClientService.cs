@@ -14,9 +14,9 @@ namespace Billing.Models.Service
 			_clientRepository = client_repository;
 		}
 
-		public async Task<int> Create(string name)
+		public async Task<int> Create(Client client)
 		{
-			return await _clientRepository.Create(name);
+			return await _clientRepository.Create(client);
 		}
 
 		public async Task Delete(int id)
@@ -29,7 +29,7 @@ namespace Billing.Models.Service
 			return await _clientRepository.Get();
 		}
 
-		public async Task<IEnumerable<Client>> GetClient(int id)
+		public async Task<Client> GetClient(int id)
 		{
 			return await _clientRepository.GetClient(id);
 		}
