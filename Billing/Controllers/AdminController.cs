@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Billing.Models.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
@@ -14,6 +15,7 @@ namespace Billing.Controllers
 			_clientService = client_service;
 		}
 		
+		[Authorize]
 		public async Task<IActionResult> Index()
 		{
 			var clients = await _clientService.Get();

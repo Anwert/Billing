@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,14 @@ namespace Billing
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			// установка конфигурации подключения
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options => //CookieAuthenticationOptions
+				{
+					options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+				});
 			
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 			services.AddSingleton<IConfiguration>(Configuration);
 		}
 
@@ -39,6 +46,9 @@ namespace Billing
 			}
 
 			app.UseHttpsRedirection();
+			
+			app.UseAuthentication();
+			
 			app.UseMvc(routes => { routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}"); });
 		}
 
