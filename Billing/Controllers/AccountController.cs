@@ -94,7 +94,7 @@ namespace Billing.Controllers
 			var claims = new List<Claim>
 			{
 				new Claim(ClaimsIdentity.DefaultNameClaimType, email),
-				new Claim(ClaimTypes.Role, role)
+				new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
 			};
 			// создаем объект ClaimsIdentity
 			var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
