@@ -16,10 +16,11 @@ namespace Billing.Models.Repository
 			{
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<User>($@"
-select	account		{nameof(User.Id)},
+select	[user]		{nameof(User.Id)},
 		email		{nameof(User.Email)},
-		password	{nameof(User.Password)}
-from	account
+		password	{nameof(User.Password)},
+		role		{nameof(User.Role)}
+from	[user]
 where	email		=	@{nameof(model.Email)}
 	and	password	=	@{nameof(model.Password)}
 ", new { model.Email, model.Password });
@@ -32,10 +33,11 @@ where	email		=	@{nameof(model.Email)}
 			{
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<User>($@"
-select	account		{nameof(User.Id)},
+select	[user]		{nameof(User.Id)},
 		email		{nameof(User.Email)},
-		password	{nameof(User.Password)}
-from	account
+		password	{nameof(User.Password)},
+		role		{nameof(User.Role)}
+from	[user]
 where	email = @{nameof(email)}
 ", new { email });
 			}

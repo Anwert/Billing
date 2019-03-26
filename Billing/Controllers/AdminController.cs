@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
 {
+	[Authorize(Roles = AccountController.ADMIN)]
 	public class AdminController : Controller
 	{
 		private readonly IClientService _clientService;
@@ -15,7 +16,6 @@ namespace Billing.Controllers
 			_clientService = client_service;
 		}
 		
-		[Authorize]
 		public async Task<IActionResult> Index()
 		{
 			var clients = await _clientService.Get();
