@@ -4,16 +4,16 @@ using Billing.Models.DataModel;
 
 namespace Billing.Models.Service
 {
-	public interface IClientService
+	public interface IUserService
 	{
-		Task<int> Create(Client client);
+		Task<int> Create(User user);
 
 		Task Delete(int id);
 
-		Task<IEnumerable<Client>> Get();
+		Task<IEnumerable<User>> GetClients();
 
-		Task<Client> GetClient(int id);
+		Task<User> GetClient(int id);
 
-		Task Update(Client client);
+		Task Update(User user);
 	}
 }

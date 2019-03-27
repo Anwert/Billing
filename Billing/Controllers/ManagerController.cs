@@ -9,30 +9,30 @@ namespace Billing.Controllers
 	[Authorize(Roles = AccountService.MANAGER)]
 	public class ManagerController : Controller
 	{
-		private readonly IClientService _clientService;
+		private readonly IUserService _userService;
 
-		public ManagerController(IClientService client_service)
+		public ManagerController(IUserService user_service)
 		{
-			_clientService = client_service;
+			_userService = user_service;
 		}
 		
 		public async Task<IActionResult> Index()
 		{
-			var clients = await _clientService.Get();
+			var clients = await _userService.GetClients();
 			return View(clients);
 		}
 
-		public async Task<IActionResult> Create(Client client)
+		public async Task<IActionResult> Create(User client)
 		{
-			await _clientService.Create(client);
-			var clients = await _clientService.Get();
+			await _userService.Create(client);
+			var clients = await _userService.GetClients();
 			return View("Index", clients);
 		}
 		
-		public async Task<IActionResult> Update(Client client)
+		public async Task<IActionResult> Update(User client)
 		{
-			await _clientService.Update(client);
-			var clients = await _clientService.Get();
+			await _userService.Update(client);
+			var clients = await _userService.GetClients();
 			return View("Index", clients);
 		}
 	}
