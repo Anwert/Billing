@@ -2,7 +2,12 @@
  
 <h2>Регистрация</h2>
  
-@Html.ValidationMessageFor(m => m.Email)
+@if(ViewData.ModelState["GlobalError"] != null && ViewData.ModelState["GlobalError"].Errors.Any())
+{
+	<div class="form-group">
+		<span class="text-danger">@Html.ValidationMessageFor(x => x.GlobalError)</span>
+	</div>
+}
 
 <form asp-action="RegisterClient" asp-controller="Account" asp-anti-forgery="true">
 	<div class="validation" asp-validation-summary="ModelOnly" />

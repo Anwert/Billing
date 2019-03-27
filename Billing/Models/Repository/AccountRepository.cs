@@ -49,7 +49,7 @@ where	email = @{nameof(email)}
 			{
 				conn.Open();
 				await conn.ExecuteAsync($@"
-insert account (email, password)
+insert [user] (email, password)
 values (@{nameof(model.Email)}, @{nameof(model.Password)})
 ", new { model.Email, model.Password });
 			}

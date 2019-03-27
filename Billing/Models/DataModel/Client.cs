@@ -1,12 +1,8 @@
 ﻿namespace Billing.Models.DataModel
 {
-	public class Client
+	public class Client : User
 	{
-		public int Id { get; set; }
-
 		public string Name { get; set; }
-		
-		public string Email { get; set; }
 		
 		public string Address { get; set; }
 		

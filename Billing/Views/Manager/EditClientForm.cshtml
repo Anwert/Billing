@@ -1,9 +1,8 @@
 ﻿@model Client
 
-@* TODO: код в формах дублируется *@
-<form asp-controller="Admin" asp-action="Create" method="post">
+<form asp-controller="Manager" asp-action="Update" method="post">
 	<div class="modal-header">
-		<h4 class="modal-title">Add Client</h4>
+		<h4 class="modal-title">Edit Client</h4>
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	</div>
 	<div class="modal-body">
@@ -26,6 +25,6 @@
 	</div>
 	<div class="modal-footer">
 		<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-		<input type="submit" class="btn btn-success" value="Add">
+		<input type="submit" class="btn btn-info" value="Save">
 	</div>
 </form>

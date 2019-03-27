@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
 {
-	[Authorize(Roles = AccountController.ADMIN)]
-	public class AdminController : Controller
+	[Authorize(Roles = AccountService.MANAGER)]
+	public class ManagerController : Controller
 	{
 		private readonly IClientService _clientService;
 
-		public AdminController(IClientService client_service)
+		public ManagerController(IClientService client_service)
 		{
 			_clientService = client_service;
 		}

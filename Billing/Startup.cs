@@ -25,6 +25,7 @@ namespace Billing
 				.AddCookie(options => //CookieAuthenticationOptions
 				{
 					options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+					options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Forbidden");
 				});
 			
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -49,7 +50,7 @@ namespace Billing
 			
 			app.UseAuthentication();
 			
-			app.UseMvc(routes => { routes.MapRoute("default", "{controller=Admin}/{action=Index}/{id?}"); });
+			app.UseMvc(routes => { routes.MapRoute("default", "{controller=Account}/{action=Index}/{id?}"); });
 		}
 
 		public void ConfigureContainer(ContainerBuilder builder)
