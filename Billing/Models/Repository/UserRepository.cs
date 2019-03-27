@@ -3,6 +3,7 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Billing.Models.Service;
 
 namespace Billing.Models.Repository
 {
@@ -88,6 +89,23 @@ select	[user]		{nameof(User.Id)},
 from	[user]
 where	name = @{nameof(name)}
 ", new {name});
+			}
+		}
+
+		public async Task<IEnumerable<User>> GetClients()
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QueryAsync<User>($@"
+select	[user]		{nameof(User.Id)},
+		name		{nameof(User.Name)},
+		password	{nameof(User.Password)},
+		contacts	{nameof(User.Contacts)},
+		role		{nameof(User.Role)}
+from	[user]
+where	role = '{UserService.CLIENT_ROLE}'
+");
 			}
 		}
 

@@ -35,7 +35,7 @@ namespace Billing.Models.Service
 				Role = role
 			};
 
-			return await Create(user);
+			return await _userRepository.Create(user);
 		}
 
 		public async Task Delete(int id)
@@ -60,13 +60,12 @@ namespace Billing.Models.Service
 
 		public async Task<IEnumerable<User>> GetClients()
 		{
-			var users = await GetUsers();
-			return users.Where(x => x.Role == CLIENT_ROLE);
+			return await _userRepository.GetClients();
 		}
 
 		public async Task<User> GetUserByLoginModel(LoginModel model)
 		{
-			var user = await GetUserByName(model.Name);
+			var user = await _userRepository.GetUserByName(model.Name);
 			return user?.Password == model.Password ? user : null;
 		}
 

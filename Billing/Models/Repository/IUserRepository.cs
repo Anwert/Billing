@@ -18,5 +18,7 @@ namespace Billing.Models.Repository
 		Task Update(User user);
 
 		Task<User> GetUserByName(string name);
+		
+		Task<IEnumerable<User>> GetClients();
 	}
 }
