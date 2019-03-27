@@ -30,7 +30,7 @@ namespace Billing.Models.Service
 		{
 			var contracts = await _contractRepository.GetContracts();
 			
-			Parallel.ForEach(contracts, async contract =>
+			foreach (var contract in contracts)
 			{
 				var manager_task	= _userService.GetUserById(contract.Manager.Id);
 				var client_task		= _userService.GetUserById(contract.Client.Id);
@@ -43,8 +43,8 @@ namespace Billing.Models.Service
 				contract.Client		= client_task.Result;
 				contract.Favour		= favour_task.Result;
 				contract.Status		= status_task.Result;
-			});
-
+			}
+			
 			return contracts;
 		}
 	}
