@@ -29,7 +29,6 @@ namespace Billing.Models.Service
 		{
 			var user = new User
 			{
-				Email = model.Email,
 				Name = model.Name,
 				Contacts = model.Contacts,
 				Password = model.Password,
@@ -44,14 +43,14 @@ namespace Billing.Models.Service
 			await _userRepository.Delete(id);
 		}
 
-		public async Task<IEnumerable<User>> Get()
+		public async Task<IEnumerable<User>> GetUsers()
 		{
-			return await _userRepository.Get();
+			return await _userRepository.GetUsers();
 		}
 
-		public async Task<User> GetUser(int id)
+		public async Task<User> GetUserById(int id)
 		{
-			return await _userRepository.GetUser(id);
+			return await _userRepository.GetUserById(id);
 		}
 
 		public async Task Update(User user)
@@ -61,33 +60,32 @@ namespace Billing.Models.Service
 
 		public async Task<IEnumerable<User>> GetClients()
 		{
-			var users = await Get();
+			var users = await GetUsers();
 			return users.Where(x => x.Role == CLIENT_ROLE);
 		}
 
-		public async Task<User> GetUser(LoginModel model)
+		public async Task<User> GetUserByLoginModel(LoginModel model)
 		{
-			var user = await GetUserByEmail(model.Email);
-			
+			var user = await GetUserByName(model.Name);
 			return user?.Password == model.Password ? user : null;
 		}
 
-		public async Task<User> GetUserByEmail(string email)
+		public async Task<User> GetUserByName(string name)
 		{
-			return await _userRepository.GetUserByEmail(email);
+			return await _userRepository.GetUserByName(name);
 		}
 		
-		public ClaimsPrincipal GetClaimsPrincipal(string email, string role)
+		public ClaimsPrincipal GetClaimsPrincipal(string name, string role)
 		{
 			var claims = new List<Claim>
 			{
-				new Claim(ClaimsIdentity.DefaultNameClaimType, email),
+				new Claim(ClaimsIdentity.DefaultNameClaimType, name),
 				new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
 			};
 
 			var claims_identity = new ClaimsIdentity(claims, "ApplicationCookie",
 				ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-
+			
 			return new ClaimsPrincipal(claims_identity);
 		}
 	}

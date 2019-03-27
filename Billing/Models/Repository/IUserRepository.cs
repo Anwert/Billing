@@ -11,12 +11,12 @@ namespace Billing.Models.Repository
 
 		Task Delete(int id);
 
-		Task<IEnumerable<User>> Get();
+		Task<IEnumerable<User>> GetUsers();
 
-		Task<User> GetUser(int id);
+		Task<User> GetUserById(int id);
 
 		Task Update(User user);
 
-		Task<User> GetUserByEmail(string email);
+		Task<User> GetUserByName(string name);
 	}
 }

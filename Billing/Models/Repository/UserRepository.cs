@@ -16,22 +16,21 @@ namespace Billing.Models.Repository
 			{
 				conn.Open();
 				return await conn.ExecuteScalarAsync<int>($@"
-insert	[user] (email, name, password, contacts, role)
-values	(@{nameof(User.Email)}, @{nameof(User.Name)}, @{nameof(User.Password)}, @{nameof(User.Contacts)}, @{nameof(User.Role)})
+insert	[user] (name, password, contacts, role)
+values	(@{nameof(User.Name)}, @{nameof(User.Password)}, @{nameof(User.Contacts)}, @{nameof(User.Role)})
 
 select	scope_identity()
-", new { user.Email, user.Name, user.Password, user.Contacts, user.Role });
+", new { user.Name, user.Password, user.Contacts, user.Role });
 			}
 		}
 
-		public async Task<IEnumerable<User>> Get()
+		public async Task<IEnumerable<User>> GetUsers()
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
 				return await conn.QueryAsync<User>($@"
 select	[user]		{nameof(User.Id)},
-		email		{nameof(User.Email)},
 		name		{nameof(User.Name)},
 		password	{nameof(User.Password)},
 		contacts	{nameof(User.Contacts)},
@@ -41,14 +40,13 @@ from	[user]
 			}
 		}
 
-		public async Task<User> GetUser(int id)
+		public async Task<User> GetUserById(int id)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<User>($@"
 select	[user]		{nameof(User.Id)},
-		email		{nameof(User.Email)},
 		name		{nameof(User.Name)},
 		password	{nameof(User.Password)},
 		contacts	{nameof(User.Contacts)},
@@ -67,31 +65,29 @@ where	[user] = @{nameof(id)}
 				await conn.ExecuteAsync($@"
 update	client
 set		[user]		{nameof(User.Id)},
-		email		{nameof(User.Email)},
 		name		{nameof(User.Name)},
 		password	{nameof(User.Password)},
 		contacts	{nameof(User.Contacts)},
 		role		{nameof(User.Role)}
 where	[user] = @{nameof(user.Id)}
-", new { user.Email, user.Name, user.Password, user.Contacts, user.Role });
+", new { user.Name, user.Password, user.Contacts, user.Role });
 			}
 		}
 
-		public async Task<User> GetUserByEmail(string email)
+		public async Task<User> GetUserByName(string name)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<User>($@"
 select	[user]		{nameof(User.Id)},
-		email		{nameof(User.Email)},
 		name		{nameof(User.Name)},
 		password	{nameof(User.Password)},
 		contacts	{nameof(User.Contacts)},
 		role		{nameof(User.Role)}
 from	[user]
-where	email = @{nameof(email)}
-", new {email});
+where	name = @{nameof(name)}
+", new {name});
 			}
 		}
 

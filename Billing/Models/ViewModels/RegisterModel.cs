@@ -4,17 +4,13 @@ namespace Billing.Models.ViewModels
 {
 	public class RegisterModel
 	{
-		[Required(ErrorMessage ="Не указан Email")]
-		[EmailAddress(ErrorMessage = "Неверный формат Email")]
-		public string Email { get; set; }
+		[Required(ErrorMessage = "Не указано имя")]
+		public string Name { get; set; }
          
 		[Required(ErrorMessage = "Не указан пароль")]
 		public string Password { get; set; }
 		
-		[Required(ErrorMessage = "Не указано имя")]
-		public string Name { get; set; }
-		
-		[Required(ErrorMessage = "Не указан телефонный номер")]
+		[Required(ErrorMessage = "Не указана контактная информация")]
 		public string Contacts { get; set; }
          
 		[Compare("Password", ErrorMessage = "Пароль введен неверно")]

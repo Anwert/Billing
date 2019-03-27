@@ -50,10 +50,10 @@ namespace Billing.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _userService.GetUser(model);
+				var user = await _userService.GetUserByLoginModel(model);
 				if (user != null)
 				{
-					await Authenticate(model.Email, user.Role); // аутентификация
+					await Authenticate(model.Name, user.Role); // аутентификация
 
 					return user.Role == UserService.MANAGER_ROLE
 						? RedirectToAction("Index", "Manager")
@@ -77,24 +77,24 @@ namespace Billing.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _userService.GetUserByEmail(model.Email);
+				var user = await _userService.GetUserByName(model.Name);
 				if (user == null)
 				{
 					await _userService.Create(model, UserService.CLIENT_ROLE);
- 
-					await Authenticate(model.Email, UserService.CLIENT_ROLE);
- 
+					
+					await Authenticate(model.Name, UserService.CLIENT_ROLE);
+					
 					return RedirectToAction("Index", "Client");
 				}
 				
-				ModelState.AddModelError("GlobalError", "Пользователь уже существует.");
+				ModelState.AddModelError("GlobalError", "Пользователь с именем уже существует.");
 			}
 			return View(model);
 		}
  
-		private async Task Authenticate(string email, string role)
+		private async Task Authenticate(string name, string role)
 		{
-			var claims_principal = _userService.GetClaimsPrincipal(email, role);
+			var claims_principal = _userService.GetClaimsPrincipal(name, role);
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claims_principal);
 		}
  

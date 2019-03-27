@@ -14,17 +14,17 @@ namespace Billing.Models.Service
 
 		Task Delete(int id);
 
-		Task<IEnumerable<User>> Get();
+		Task<IEnumerable<User>> GetUsers();
 
-		Task<User> GetUser(int id);
+		Task<User> GetUserById(int id);
 
 		Task Update(User user);
 
 		Task<IEnumerable<User>>GetClients();
 		
-		Task<User> GetUser(LoginModel model);
+		Task<User> GetUserByLoginModel(LoginModel model);
 		
-		Task<User> GetUserByEmail(string email);
+		Task<User> GetUserByName(string name);
 
 		ClaimsPrincipal GetClaimsPrincipal(string email, string role);
 	}
