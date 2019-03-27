@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
 {
-	[Authorize(Roles = AccountService.CLIENT)]
+	[Authorize(Roles = UserService.CLIENT_ROLE)]
 	public class ClientController : Controller
 	{
 		public IActionResult Index()

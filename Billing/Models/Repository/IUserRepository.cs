@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
+using Billing.Models.ViewModels;
 
 namespace Billing.Models.Repository
 {
@@ -10,10 +11,12 @@ namespace Billing.Models.Repository
 
 		Task Delete(int id);
 
-		Task<IEnumerable<User>> GetClients();
+		Task<IEnumerable<User>> Get();
 
-		Task<User> GetClient(int id);
+		Task<User> GetUser(int id);
 
 		Task Update(User user);
+
+		Task<User> GetUserByEmail(string email);
 	}
 }

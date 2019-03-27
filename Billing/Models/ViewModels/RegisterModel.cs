@@ -15,7 +15,6 @@ namespace Billing.Models.ViewModels
 		public string Name { get; set; }
 		
 		[Required(ErrorMessage = "Не указан телефонный номер")]
-		[Phone(ErrorMessage = "Неверный формат телефонного номера")]
 		public string Contacts { get; set; }
          
 		[Compare("Password", ErrorMessage = "Пароль введен неверно")]

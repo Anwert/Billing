@@ -10,21 +10,21 @@ namespace Billing.Controllers
 	// TODO: в try catch все обернуть наверн по хорошему в контроллерах
 	public class AccountController : Controller
 	{
-		private readonly IAccountService _accountService;
+		private readonly IUserService _userService;
 		
-		public AccountController(IAccountService account_service)
+		public AccountController(IUserService user_service)
 		{
-			_accountService = account_service;
+			_userService = user_service;
 		}
 		
 		public IActionResult Index()
 		{
-			if (User.IsInRole(AccountService.CLIENT))
+			if (User.IsInRole(UserService.CLIENT_ROLE))
 			{
 				return RedirectToAction("Index", "Client");
 			}
 
-			if (User.IsInRole(AccountService.MANAGER))
+			if (User.IsInRole(UserService.MANAGER_ROLE))
 			{
 				return RedirectToAction("Index", "Manager");
 			}
@@ -50,12 +50,12 @@ namespace Billing.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _accountService.GetUser(model);
+				var user = await _userService.GetUser(model);
 				if (user != null)
 				{
-					await Authenticate(model.Email, AccountService.MANAGER); // аутентификация
+					await Authenticate(model.Email, user.Role); // аутентификация
 
-					return user.Role == AccountService.MANAGER
+					return user.Role == UserService.MANAGER_ROLE
 						? RedirectToAction("Index", "Manager")
 						: RedirectToAction("Index", "Client");
 				}
@@ -77,12 +77,12 @@ namespace Billing.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = await _accountService.GetUserByEmail(model.Email);
+				var user = await _userService.GetUserByEmail(model.Email);
 				if (user == null)
 				{
-					await _accountService.AddUser(model);
+					await _userService.Create(model, UserService.CLIENT_ROLE);
  
-					await Authenticate(model.Email, AccountService.CLIENT);
+					await Authenticate(model.Email, UserService.CLIENT_ROLE);
  
 					return RedirectToAction("Index", "Client");
 				}
@@ -94,7 +94,7 @@ namespace Billing.Controllers
  
 		private async Task Authenticate(string email, string role)
 		{
-			var claims_principal = _accountService.GetClaimsPrincipal(email, role);
+			var claims_principal = _userService.GetClaimsPrincipal(email, role);
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claims_principal);
 		}
  

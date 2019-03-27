@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
 {
-	[Authorize(Roles = AccountService.MANAGER)]
+	[Authorize(Roles = UserService.MANAGER_ROLE)]
 	public class ManagerController : Controller
 	{
 		private readonly IUserService _userService;

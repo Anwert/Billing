@@ -3,7 +3,6 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Billing.Models.Service;
 
 namespace Billing.Models.Repository
 {
@@ -25,7 +24,7 @@ select	scope_identity()
 			}
 		}
 
-		public async Task<IEnumerable<User>> GetClients()
+		public async Task<IEnumerable<User>> Get()
 		{
 			using (var conn = Connection)
 			{
@@ -38,17 +37,16 @@ select	[user]		{nameof(User.Id)},
 		contacts	{nameof(User.Contacts)},
 		role		{nameof(User.Role)}
 from	[user]
-where	role = '{AccountService.CLIENT}'
 ");
 			}
 		}
 
-		public async Task<User> GetClient(int id)
+		public async Task<User> GetUser(int id)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
-				return await conn.ExecuteScalarAsync<User>($@"
+				return await conn.QuerySingleOrDefaultAsync<User>($@"
 select	[user]		{nameof(User.Id)},
 		email		{nameof(User.Email)},
 		name		{nameof(User.Name)},
@@ -56,7 +54,7 @@ select	[user]		{nameof(User.Id)},
 		contacts	{nameof(User.Contacts)},
 		role		{nameof(User.Role)}
 from	[user]
-where	[user] = @{nameof(id)} and role = '{AccountService.CLIENT}'
+where	[user] = @{nameof(id)}
 ", new { id });
 			}
 		}
@@ -76,6 +74,24 @@ set		[user]		{nameof(User.Id)},
 		role		{nameof(User.Role)}
 where	[user] = @{nameof(user.Id)}
 ", new { user.Email, user.Name, user.Password, user.Contacts, user.Role });
+			}
+		}
+
+		public async Task<User> GetUserByEmail(string email)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QuerySingleOrDefaultAsync<User>($@"
+select	[user]		{nameof(User.Id)},
+		email		{nameof(User.Email)},
+		name		{nameof(User.Name)},
+		password	{nameof(User.Password)},
+		contacts	{nameof(User.Contacts)},
+		role		{nameof(User.Role)}
+from	[user]
+where	email = @{nameof(email)}
+", new {email});
 			}
 		}
 
