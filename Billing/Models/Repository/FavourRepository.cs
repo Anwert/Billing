@@ -9,12 +9,12 @@ namespace Billing.Models.Repository
 	{
 		public FavourRepository(IConfiguration config) : base(config) { }
 
-		public Task<Favour> GetFavourById(int id)
+		public async Task<Favour> GetFavourById(int id)
 		{
 			using (var conn = Connection)
 			{
 				conn.Open();
-				return conn.QuerySingleOrDefaultAsync<Favour>($@"
+				return await conn.QuerySingleOrDefaultAsync<Favour>($@"
 select	favour	{nameof(Favour.Id)},
 		name	{nameof(Favour.Name)}
 from	favour

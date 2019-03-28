@@ -16,22 +16,18 @@ namespace Billing.Models.Repository
 			{
 				conn.Open();
 				return await conn.QueryAsync<Contract, User, User, Favour, Status, Contract>($@"
-select	cn.contract	{nameof(Contract.Id)},
-		mn.manager	{nameof(Contract.Manager.Id)},
-		cl.client	{nameof(Contract.Client.Id)},
-		fv.favour	{nameof(Contract.Favour.Id)},
-		st.status	{nameof(Contract.Status.Id)}
-from	contract	cn
-	join manager	mn on m.manager	= cn.manager
-	join client		cl on cl.client	= cn.client
-	join favour		fv on d.favour	= cn.favour
-	join status		st on s.status	= cn.status
+select	contract	{nameof(Contract.Id)},
+		manager		{nameof(Contract.Manager.Id)},
+		client		{nameof(Contract.Client.Id)},
+		favour		{nameof(Contract.Favour.Id)},
+		status		{nameof(Contract.Status.Id)}
+from contract cn
 ", (contract, manager, client, favour, status) =>
 				{
-					contract.Manager.Id	= manager.Id;
-					contract.Client.Id	= client.Id;
-					contract.Favour.Id	= favour.Id;
-					contract.Status.Id	= status.Id;
+					contract.Manager	= manager;
+					contract.Client		= client;
+					contract.Favour		= favour;
+					contract.Status		= status;
 					return contract;
 				},
 				splitOn: $"{nameof(User.Id)}, {nameof(User.Id)}, {nameof(Favour.Id)}, {nameof(Status.Id)}");
