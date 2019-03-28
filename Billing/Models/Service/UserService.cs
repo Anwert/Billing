@@ -1,7 +1,6 @@
 ﻿using Billing.Models.DataModel;
 using Billing.Models.Repository;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Billing.Models.ViewModels;
@@ -29,10 +28,10 @@ namespace Billing.Models.Service
 		{
 			var user = new User
 			{
-				Name = model.Name,
-				Contacts = model.Contacts,
-				Password = model.Password,
-				Role = role
+				Name		= model.Name,
+				Contacts	= model.Contacts,
+				Password	= model.Password,
+				Role		= role
 			};
 
 			return await _userRepository.Create(user);
@@ -66,6 +65,7 @@ namespace Billing.Models.Service
 		public async Task<User> GetUserByLoginModel(LoginModel model)
 		{
 			var user = await _userRepository.GetUserByName(model.Name);
+			
 			return user?.Password == model.Password ? user : null;
 		}
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Billing.Controllers
 {
-	// TODO: в try catch все обернуть наверн по хорошему в контроллерах
 	public class AccountController : Controller
 	{
 		private readonly IUserService _userService;

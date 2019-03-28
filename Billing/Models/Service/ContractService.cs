@@ -7,13 +7,10 @@ namespace Billing.Models.Service
 {
 	public class ContractService : IContractService
 	{
-		private readonly IContractRepository _contractRepository;
-		
-		private readonly IUserService _userService;
-		
-		private readonly IFavourService _favourService;
-		
-		private readonly IStatusService _statusService;
+		private readonly IContractRepository	_contractRepository;
+		private readonly IUserService			_userService;
+		private readonly IFavourService			_favourService;
+		private readonly IStatusService			_statusService;
 
 		public ContractService(IContractRepository contract_repository,
 			IUserService user_service,
@@ -46,6 +43,11 @@ namespace Billing.Models.Service
 			}
 			
 			return contracts;
+		}
+
+		public async Task Create(Contract contract)
+		{
+			await _contractRepository.Create(contract);
 		}
 	}
 }

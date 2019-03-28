@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Billing.Models.Repository;
@@ -16,6 +17,11 @@ namespace Billing.Models.Service
 		public async Task<Favour> GetFavourById(int id)
 		{
 			return await _favourRepository.GetFavourById(id);
+		}
+
+		public async Task<IEnumerable<Favour>> GetFavours()
+		{
+			return await _favourRepository.GetFavours();
 		}
 	}
 }

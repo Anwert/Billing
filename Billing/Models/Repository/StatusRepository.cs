@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Dapper;
@@ -21,6 +21,19 @@ select	status	{nameof(Status.Id)},
 from	status
 where	status = @{nameof(id)}
 ", new { id });
+			}
+		}
+
+		public async Task<IEnumerable<Status>> GetStatuses()
+		{
+			using(var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QueryAsync<Status>($@"
+select	status	{nameof(Status.Id)},
+		name	{nameof(Status.Name)}
+from	status
+");
 			}
 		}
 	}

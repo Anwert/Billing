@@ -7,5 +7,7 @@ namespace Billing.Models.Repository
 	public interface IContractRepository
 	{
 		Task<IEnumerable<Contract>> GetContracts();
+		
+		Task Create(Contract contract);
 	}
 }

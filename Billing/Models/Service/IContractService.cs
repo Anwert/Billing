@@ -7,5 +7,7 @@ namespace Billing.Models.Service
 	public interface IContractService
 	{
 		Task<IEnumerable<Contract>> GetContracts();
+		
+		Task Create(Contract contract);
 	}
 }

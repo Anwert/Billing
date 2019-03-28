@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Billing.Models.DataModel;
-using Billing.Models.Repository;
 using Billing.Models.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,35 +9,58 @@ namespace Billing.Controllers
 	[Authorize(Roles = UserService.MANAGER_ROLE)]
 	public class ManagerController : Controller
 	{
-		private readonly IUserService _userService;
-		
-		private readonly IContractService _contractService;
+		private readonly IUserService		_userService;
+		private readonly IContractService	_contractService;
+		private readonly IStatusService		_statusService;
+		private readonly IFavourService		_favourService;
 
 		public ManagerController(IUserService user_service,
-			IContractService contract_service)
+			IContractService contract_service,
+			IStatusService status_service,
+			IFavourService favour_service)
 		{
-			_userService = user_service;
-			_contractService = contract_service;
+			_userService		= user_service;
+			_contractService	= contract_service;
+			_statusService		= status_service;
+			_favourService		= favour_service;
 		}
 		
 		public async Task<IActionResult> Index()
 		{
-			var contracts = await _contractService.GetContracts();
+			var contracts	= await _contractService.GetContracts();
+			var statuses	= await _statusService.GetStatuses();
+
+			ViewBag.Statuses = statuses;
+			
 			return View(contracts);
 		}
+		
+		[HttpGet]
+		public async Task<IActionResult>CreateContract()
+		{
+			var favours		= await _favourService.GetFavours();
+			var statuses	= await _statusService.GetStatuses();
+			var clients		= await _userService.GetClients();
+			
+			ViewBag.Favours		= favours;
+			ViewBag.Statuses	= statuses;
+			ViewBag.Clients		= clients;
+			
+			return View();
+		}
 
-//		public async Task<IActionResult> Create(User client)
-//		{
-//			await _userService.Create(client);
-//			var clients = await _userService.GetClients();
-//			return View("Index", clients);
-//		}
-//		
-//		public async Task<IActionResult> Update(User client)
-//		{
-//			await _userService.Update(client);
-//			var clients = await _userService.GetClients();
-//			return View("Index", clients);
-//		}
+		[HttpPost]
+		public async Task<IActionResult>CreateContract(Contract contract)
+		{
+			contract.Manager = await GetCurrentManager();
+			_contractService.Create(contract);
+			
+			return RedirectToAction("Index");
+		}
+		
+		private async Task<User> GetCurrentManager()
+		{
+			return await _userService.GetUserByName(User.Identity.Name);
+		}
 	}
 }

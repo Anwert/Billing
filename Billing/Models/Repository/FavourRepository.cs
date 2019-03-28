@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Dapper;
@@ -20,6 +21,19 @@ select	favour	{nameof(Favour.Id)},
 from	favour
 where	favour = @{nameof(id)}
 ", new { id });
+			}
+		}
+
+		public async Task<IEnumerable<Favour>> GetFavours()
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QueryAsync<Favour>($@"
+select	favour	{nameof(Favour.Id)},
+		name	{nameof(Favour.Name)}
+from	favour
+");
 			}
 		}
 	}

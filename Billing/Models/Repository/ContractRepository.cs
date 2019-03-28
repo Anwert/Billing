@@ -30,7 +30,28 @@ from contract cn
 					contract.Status		= status;
 					return contract;
 				},
-				splitOn: $"{nameof(User.Id)}, {nameof(User.Id)}, {nameof(Favour.Id)}, {nameof(Status.Id)}");
+				splitOn:	$"{nameof(Contract.Manager.Id)}," +
+							$"{nameof(Contract.Client.Id)}," +
+							$"{nameof(Contract.Favour.Id)}," +
+							$"{nameof(Contract.Status.Id)}");
+			}
+		}
+
+		public async Task Create(Contract contract)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				await conn.ExecuteAsync($@"
+insert contract (manager, client, favour, [status])
+values (@manager_id, @client_id, @favour_id, @status_id)
+", new
+				{
+					manager_id	= contract.Manager.Id,
+					client_id	= contract.Client.Id,
+					favour_id	= contract.Favour.Id,
+					status_id	= contract.Status.Id 
+				});
 			}
 		}
 	}

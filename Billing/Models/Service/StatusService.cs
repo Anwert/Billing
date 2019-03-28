@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Billing.Models.Repository;
@@ -16,6 +17,11 @@ namespace Billing.Models.Service
 		public async Task<Status> GetStatusById(int id)
 		{
 			return await _statusRepository.GetStatusById(id);
+		}
+
+		public async Task<IEnumerable<Status>> GetStatuses()
+		{
+			return await _statusRepository.GetStatuses();
 		}
 	}
 }
