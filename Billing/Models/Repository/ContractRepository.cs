@@ -21,7 +21,7 @@ select	contract	{nameof(Contract.Id)},
 		client		{nameof(Contract.Client.Id)},
 		favour		{nameof(Contract.Favour.Id)},
 		status		{nameof(Contract.Status.Id)}
-from contract cn
+from	contract cn
 ", (contract, manager, client, favour, status) =>
 				{
 					contract.Manager	= manager;
@@ -42,9 +42,9 @@ from contract cn
 			using (var conn = Connection)
 			{
 				conn.Open();
-				await conn.ExecuteAsync($@"
-insert contract (manager, client, favour, [status])
-values (@manager_id, @client_id, @favour_id, @status_id)
+				await conn.ExecuteAsync(@"
+insert	contract (manager, client, favour, [status])
+values	(@manager_id, @client_id, @favour_id, @status_id)
 ", new
 				{
 					manager_id	= contract.Manager.Id,
@@ -52,6 +52,19 @@ values (@manager_id, @client_id, @favour_id, @status_id)
 					favour_id	= contract.Favour.Id,
 					status_id	= contract.Status.Id 
 				});
+			}
+		}
+		
+		public async Task UpdateStatusForContract(int new_status_id, int contract_id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				await conn.ExecuteAsync($@"
+update	contract
+set		[status]	= @{nameof(new_status_id)}
+where 	contract	= @{nameof(contract_id)}
+", new { new_status_id, contract_id });
 			}
 		}
 	}

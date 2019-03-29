@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Billing.Models.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -56,6 +57,20 @@ namespace Billing.Controllers
 			_contractService.Create(contract);
 			
 			return RedirectToAction("Index");
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> UpdateStatusForContract(int new_status_id, int contract_id)
+		{
+			try
+			{
+				await _contractService.UpdateStatusForContract(new_status_id, contract_id);
+				return Json(new { error = false });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { error = true, message = ex.Message });
+			}
 		}
 		
 		private async Task<User> GetCurrentManager()

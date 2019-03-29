@@ -49,5 +49,10 @@ namespace Billing.Models.Service
 		{
 			await _contractRepository.Create(contract);
 		}
+
+		public async Task UpdateStatusForContract(int new_status_id, int contract_id)
+		{
+			await _contractRepository.UpdateStatusForContract(new_status_id, contract_id);
+		}
 	}
 }

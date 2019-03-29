@@ -1,10 +1,8 @@
-﻿@{
+﻿@model IEnumerable<Contract>
+@{
 	ViewBag.Title = "Contracts";
-	
-	var statuses	= ViewBag.Statuses;
+	var statuses = ViewBag.Statuses;
 }
-
-@model IEnumerable<Contract>
 
 <h2>Contracts</h2>
 <p>
@@ -12,7 +10,6 @@
 </p>
 <table>
 	<tr>
-
 		<th>
 			@Html.DisplayNameFor(model => model.Id)
 		</th>
@@ -46,8 +43,8 @@
 				@contract.Favour.Name
 			</td>
 			<td>
-				@Html.DropDownList(nameof(Status), new SelectList(statuses,
-					nameof(Status.Id), nameof(Status.Name), contract.Status.Id))
+				@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id),
+					nameof(Status.Name), contract.Status.Id),new { @class="status" })
 			</td>
 			<td>
 				@* @Html.ActionLink("Edit |", "UpdateCustomer", new { id =  item.Id})*@
@@ -57,3 +54,7 @@
 		</tr>
 	}
 </table>
+
+@section scripts {
+	<script src="~/manager/js/index.js"></script>
+} 
