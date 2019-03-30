@@ -3,7 +3,7 @@ using Billing.Models.Repository;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Billing.Models.ViewModels;
+using Billing.Models.ViewModel;
 
 namespace Billing.Models.Service
 {

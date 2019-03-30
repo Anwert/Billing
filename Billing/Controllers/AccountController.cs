@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Billing.Models.Service;
-using Billing.Models.ViewModels;
+using Billing.Models.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -32,8 +32,9 @@ namespace Billing.Controllers
 		}
 		
 		[HttpGet]
-		public IActionResult Login()
+		public async Task<IActionResult> Login()
 		{
+			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			return View();
 		}
 		
@@ -98,9 +99,8 @@ namespace Billing.Controllers
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claims_principal);
 		}
  
-		public async Task<IActionResult> Logout()
+		public IActionResult Logout()
 		{
-			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			return RedirectToAction("Login", "Account");
 		}
 	}

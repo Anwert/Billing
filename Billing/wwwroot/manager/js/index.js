@@ -10,9 +10,7 @@ $(document).ready(function() {
 				contract_id: contractId
 			},
 			success: function (result) {
-				if (!result.error) {
-					alert("success vrode kak");
-				} else {
+				if (result.error) {
 					alert("Произошла ошибка: " + result.message);
 				}
 			},

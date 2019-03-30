@@ -1,30 +1,23 @@
 ﻿@model IEnumerable<Contract>
 @{
-	ViewBag.Title = "Contracts";
-	var statuses = ViewBag.Statuses;
+	ViewBag.Title	= "Contracts";
+	
+	var statuses	= ViewBag.Statuses;
 }
 
-<h2>Contracts</h2>
+<partial name="_ManagerMenuPartial" />
+
+<h2>Договоры</h2>
 <p>
 	@Html.ActionLink("Создать новый договор", "CreateContract", "Manager")
 </p>
 <table>
 	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Id)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Manager)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Client)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Favour)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Status)
-		</th>
+		<th>Id</th>
+		<th>Менеджер</th>
+		<th>Клиент</th>
+		<th>Услуга</th>
+		<th>Статус</th>
 	</tr>
 
 	@foreach (var contract in Model)

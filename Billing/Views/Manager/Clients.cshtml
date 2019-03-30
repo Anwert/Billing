@@ -1,0 +1,38 @@
+@model IEnumerable<User>
+@{
+	ViewBag.Title = "Clients";
+}
+
+<partial name="_ManagerMenuPartial" />
+
+<h2>Клиенты</h2>
+<p>
+	@* @Html.ActionLink("Создать новый договор", "CreateContract", "Manager") *@
+</p>
+<table>
+	<tr>
+		<th>Id</th>
+		<th>Имя</th>
+		<th>Контакты</th>
+	</tr>
+
+	@foreach (var client in Model)
+	{
+		<tr>
+			<td>
+				@client.Id
+			</td>
+			<td>
+				@client.Name
+			</td>
+			<td>
+				@client.Contacts
+			</td>
+@* 			<td> *@
+@* 				@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id), *@
+@* 					nameof(Status.Name), contract.Status.Id),new { @class="status" }) *@
+@* 			</td> *@
+		</tr>
+	}
+</table>
+

@@ -54,7 +54,7 @@ namespace Billing.Controllers
 		public async Task<IActionResult>CreateContract(Contract contract)
 		{
 			contract.Manager = await GetCurrentManager();
-			_contractService.Create(contract);
+			await _contractService.Create(contract);
 			
 			return RedirectToAction("Index");
 		}
@@ -65,12 +65,20 @@ namespace Billing.Controllers
 			try
 			{
 				await _contractService.UpdateStatusForContract(new_status_id, contract_id);
+				
 				return Json(new { error = false });
 			}
 			catch (Exception ex)
 			{
 				return Json(new { error = true, message = ex.Message });
 			}
+		}
+		
+		public async Task<IActionResult> Clients()
+		{
+			var clients = await _userService.GetClients();
+			
+			return View(clients);
 		}
 		
 		private async Task<User> GetCurrentManager()
