@@ -10,7 +10,7 @@ namespace Billing.Models.Service
 	{
 		Task<int> Create(User user);
 		
-		Task<int> Create(RegisterModel model, string role);
+		Task<int> CreateUserByRegisterModel(RegisterModel model, string role);
 
 		Task Delete(int id);
 
@@ -27,5 +27,7 @@ namespace Billing.Models.Service
 		Task<User> GetUserByName(string name);
 
 		ClaimsPrincipal GetClaimsPrincipal(string email, string role);
+		
+		Task<int> CreateClient(ClientModel model);
 	}
 }

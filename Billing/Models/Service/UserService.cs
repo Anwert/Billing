@@ -24,7 +24,7 @@ namespace Billing.Models.Service
 			return await _userRepository.Create(user);
 		}
 
-		public async Task<int> Create(RegisterModel model, string role)
+		public async Task<int> CreateUserByRegisterModel(RegisterModel model, string role)
 		{
 			var user = new User
 			{
@@ -86,6 +86,19 @@ namespace Billing.Models.Service
 				ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 			
 			return new ClaimsPrincipal(claims_identity);
+		}
+
+		public async Task<int> CreateClient(ClientModel model)
+		{
+			var user = new User
+			{
+				Name		= model.Name,
+				Contacts	= model.Contacts,
+				Password	= model.Password,
+				Role		= CLIENT_ROLE
+			};
+			
+			return await _userRepository.Create(user);
 		}
 	}
 }

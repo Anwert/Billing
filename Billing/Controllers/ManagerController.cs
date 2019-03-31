@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Billing.Models.DataModel;
 using Billing.Models.Service;
+using Billing.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -79,6 +80,31 @@ namespace Billing.Controllers
 			var clients = await _userService.GetClients();
 			
 			return View(clients);
+		}
+		
+		[HttpGet]
+		public IActionResult CreateClient()
+		{
+			return View();
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> CreateClient(ClientModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _userService.GetUserByName(model.Name);
+				if (user == null)
+				{
+					await _userService.CreateClient(model);
+					
+					return RedirectToAction("Clients", "Manager");
+				}
+				
+				ModelState.AddModelError("GlobalError", "Пользователь с таким именем уже существует.");
+			}
+			
+			return View(model);
 		}
 		
 		private async Task<User> GetCurrentManager()

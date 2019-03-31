@@ -11,41 +11,47 @@
 <p>
 	@Html.ActionLink("Создать новый договор", "CreateContract", "Manager")
 </p>
-<table>
-	<tr>
-		<th>Id</th>
-		<th>Менеджер</th>
-		<th>Клиент</th>
-		<th>Услуга</th>
-		<th>Статус</th>
-	</tr>
-
-	@foreach (var contract in Model)
-	{
+<br />
+<input type="text" id="search" placeholder="Поиск">
+<table class="table">
+	<thead>
 		<tr>
-			<td>
-				@contract.Id
-			</td>
-			<td>
-				@contract.Manager.Name
-			</td>
-			<td>
-				@contract.Client.Name
-			</td>
-			<td>
-				@contract.Favour.Name
-			</td>
-			<td>
-				@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id),
-					nameof(Status.Name), contract.Status.Id),new { @class="status" })
-			</td>
-			<td>
-				@* @Html.ActionLink("Edit |", "UpdateCustomer", new { id =  item.Id})*@
-				@* @Html.ActionLink("Details", "Details", new { id =  item.Id})*@
-				@* @Html.ActionLink("Delete", "Delete", new { id =  item.Id})*@
-			</td>
+			<th>Id</th>
+			<th>Менеджер</th>
+			<th>Клиент</th>
+			<th>Услуга</th>
+			<th>Статус</th>
 		</tr>
-	}
+	</thead>
+
+	<tbody>
+		@foreach (var contract in Model)
+		{
+			<tr id="row-@contract.Id">
+				<td class="searchable">
+					@contract.Id
+				</td>
+				<td class="searchable">
+					@contract.Manager.Name
+				</td>
+				<td class="searchable">
+					@contract.Client.Name
+				</td>
+				<td class="searchable">
+					@contract.Favour.Name
+				</td>
+				<td>
+					@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id),
+						nameof(Status.Name), contract.Status.Id), new { @class = "status" })
+				</td>
+				<td>
+					@* @Html.ActionLink("Edit |", "UpdateCustomer", new { id =  item.Id})*@
+					@* @Html.ActionLink("Details", "Details", new { id =  item.Id})*@
+					@* @Html.ActionLink("Delete", "Delete", new { id =  item.Id})*@
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 @section scripts {

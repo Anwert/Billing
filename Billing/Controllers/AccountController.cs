@@ -80,7 +80,7 @@ namespace Billing.Controllers
 				var user = await _userService.GetUserByName(model.Name);
 				if (user == null)
 				{
-					var create_task			= _userService.Create(model, UserService.CLIENT_ROLE);
+					var create_task			= _userService.CreateUserByRegisterModel(model, UserService.CLIENT_ROLE);
 					var authenticate_task	= Authenticate(model.Name, UserService.CLIENT_ROLE);
 					
 					await Task.WhenAll(create_task, authenticate_task);
@@ -88,7 +88,7 @@ namespace Billing.Controllers
 					return RedirectToAction("Index", "Client");
 				}
 				
-				ModelState.AddModelError("GlobalError", "Пользователь с именем уже существует.");
+				ModelState.AddModelError("GlobalError", "Пользователь с таким именем уже существует.");
 			}
 			return View(model);
 		}
