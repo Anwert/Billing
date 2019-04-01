@@ -21,7 +21,7 @@ insert	[user] (name, password, contacts, role)
 values	(@{nameof(User.Name)}, @{nameof(User.Password)}, @{nameof(User.Contacts)}, @{nameof(User.Role)})
 
 select	scope_identity()
-", new { user.Name, user.Password, user.Contacts, user.Role });
+", user);
 			}
 		}
 
@@ -64,14 +64,13 @@ where	[user] = @{nameof(id)}
 			{
 				conn.Open();
 				await conn.ExecuteAsync($@"
-update	client
-set		[user]		{nameof(User.Id)},
-		name		{nameof(User.Name)},
-		password	{nameof(User.Password)},
-		contacts	{nameof(User.Contacts)},
-		role		{nameof(User.Role)}
+update	[user]
+set		name		 = @{nameof(User.Name)},
+		password	 = @{nameof(User.Password)},
+		contacts	 = @{nameof(User.Contacts)},
+		role		 = @{nameof(User.Role)}
 where	[user] = @{nameof(user.Id)}
-", new { user.Name, user.Password, user.Contacts, user.Role });
+", user);
 			}
 		}
 
@@ -88,7 +87,7 @@ select	[user]		{nameof(User.Id)},
 		role		{nameof(User.Role)}
 from	[user]
 where	name = @{nameof(name)}
-", new {name});
+", new { name });
 			}
 		}
 

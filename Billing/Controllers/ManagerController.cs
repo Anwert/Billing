@@ -75,7 +75,7 @@ namespace Billing.Controllers
 			}
 		}
 		
-		public async Task<IActionResult> Clients()
+		public async Task<IActionResult> GetClients()
 		{
 			var clients = await _userService.GetClients();
 			
@@ -89,22 +89,51 @@ namespace Billing.Controllers
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> CreateClient(ClientModel model)
+		public async Task<IActionResult> CreateClient(UserModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				var user = await _userService.GetUserByName(model.Name);
 				if (user == null)
 				{
-					await _userService.CreateClient(model);
+					await _userService.CreateClientWithUserModel(model);
 					
-					return RedirectToAction("Clients", "Manager");
+					return RedirectToAction("GetClients", "Manager");
 				}
 				
 				ModelState.AddModelError("GlobalError", "Пользователь с таким именем уже существует.");
 			}
 			
 			return View(model);
+		}
+		
+		[HttpGet]
+		public async Task<IActionResult> GetClient(int id)
+		{
+			var client = await _userService.GetUserModelById(id);
+			return View(client);
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> EditClient(UserModel model)
+		{
+			ModelState.Remove("ConfirmPassword");
+			if (ModelState.IsValid)
+			{
+				var user 			= await _userService.GetUserById(model.Id);
+				var possible_user	= await _userService.GetUserByName(model.Name);
+				if (user.Name == model.Name || possible_user == null)
+				{
+					await _userService.UpdateUserWithUserModel(model);
+					
+//					TODO: надо подумать куда его редиректить потом
+					return RedirectToAction("GetClients", "Manager");
+				}
+				
+				ModelState.AddModelError("GlobalError", "Пользователь с таким именем уже существует.");
+			}
+			
+			return View("GetClient", model);
 		}
 		
 		private async Task<User> GetCurrentManager()

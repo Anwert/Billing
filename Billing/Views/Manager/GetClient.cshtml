@@ -1,0 +1,46 @@
+@model UserModel
+@{
+	ViewBag.Title = "Client";
+}
+
+<partial name="_ManagerMenuPartial" />
+
+<div class="container">
+	
+	<h2>Информация о клиенте</h2>
+	
+	<a href='javascript:history.go(-1)'>Назад</a>
+	
+	@if(ViewData.ModelState["GlobalError"] != null && ViewData.ModelState["GlobalError"].Errors.Any())
+	{
+		<div class="form-group">
+			<span class="text-danger">@Html.ValidationMessageFor(x => x.GlobalError)</span>
+		</div>
+	}
+	
+	<form asp-action="EditClient" asp-controller="Manager" asp-anti-forgery="true">
+		<div>
+			<input asp-for="Id" type="hidden" value="@Model.Id" />
+			<div>
+				<label asp-for="Name">Имя</label><br/>
+				<input type="text" asp-for="Name" value="@Model.Name"/>
+				<span asp-validation-for="Name" class="text-danger"/>
+			</div>
+			<div>
+				<label asp-for="Contacts">Контактная информация</label><br/>
+				<input type="text" asp-for="Contacts" value="@Model.Contacts"/>
+				<span asp-validation-for="Contacts" class="text-danger"/>
+			</div>
+			<div>
+				<label asp-for="Password">Пароль</label><br/>
+				<input asp-for="Password" type="text" value="@Model.Password"/>
+				<span asp-validation-for="Password" class="text-danger"/>
+			</div>
+			<br/>
+			<div >
+				<input class="btn btn-secondary" type="submit" value="Обновить информацию о клиенте"/>
+			</div>
+		</div>
+	</form>
+	
+</div>

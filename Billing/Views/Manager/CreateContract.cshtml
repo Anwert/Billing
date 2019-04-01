@@ -9,28 +9,33 @@
 
 <partial name="_ManagerMenuPartial" />
 
-<h2>Создание договора</h2>
-
-<form asp-action="CreateContract" asp-controller="Manager" asp-anti-forgery="true">
-	<div>
-		<div class="form-group">
-			<label asp-for="Client">Выберите клиента</label>
-			@Html.DropDownListFor(model => model.Client.Id, new SelectList(clients,
-				nameof(Contract.Client.Id), nameof(Contract.Client.Name)))
+<div class="container body-content">
+	
+	<h2>Создание договора</h2>
+	<br />
+	
+	<form asp-action="CreateContract" asp-controller="Manager" asp-anti-forgery="true">
+		<div>
+			<div class="form-group">
+				<label asp-for="Client">Выберите клиента</label>
+				@Html.DropDownListFor(model => model.Client.Id, new SelectList(clients,
+					nameof(Contract.Client.Id), nameof(Contract.Client.Name)))
+			</div>
+			<div class="form-group">
+				<label asp-for="Favour">Выберите услугу</label>
+				@Html.DropDownListFor(model => model.Favour.Id, new SelectList(favours,
+					nameof(Contract.Favour.Id), nameof(Contract.Favour.Name)))
+			</div>
+			<div class="form-group">
+				<label asp-for="Status">Выберите текущий статус</label>
+				@Html.DropDownListFor(model => model.Status.Id, new SelectList(statuses,
+					nameof(Contract.Status.Id), nameof(Contract.Status.Name)))
+			</div>
+			<div class="form-group">
+				<input class="btn btn-secondary" type="submit" value="Создать" class="btn" />
+				<a href='javascript:history.go(-1)'>Отмена</a>
+			</div>
 		</div>
-		<div class="form-group">
-			<label asp-for="Favour">Выберите услугу</label>
-			@Html.DropDownListFor(model => model.Favour.Id, new SelectList(favours,
-				nameof(Contract.Favour.Id), nameof(Contract.Favour.Name)))
-		</div>
-		<div class="form-group">
-			<label asp-for="Status">Выберите статус</label>
-			@Html.DropDownListFor(model => model.Status.Id, new SelectList(statuses,
-				nameof(Contract.Status.Id), nameof(Contract.Status.Name)))
-		</div>
-		<div class="form-group">
-			<input type="submit" value="Создать" class="btn" />
-			<a href='javascript:history.go(-1)'>Отмена</a>
-		</div>
-	</div>
-</form>
+	</form>
+	
+</div>

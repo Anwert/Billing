@@ -32,25 +32,26 @@ namespace Billing.Controllers
 		}
 		
 		[HttpGet]
+		public IActionResult Forbidden()
+		{
+			return View();
+		}
+		
+		[HttpGet]
 		public async Task<IActionResult> Login()
 		{
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			return View();
 		}
 		
-		[HttpGet]
-		public IActionResult Forbidden()
-		{
-			return View();
-		}
-		
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Login(LoginModel model)
+		public async Task<IActionResult> Login(UserModel model)
 		{
+			ModelState.Remove("Contacts");
+			ModelState.Remove("ConfirmPassword");
 			if (ModelState.IsValid)
 			{
-				var user = await _userService.GetUserByLoginModel(model);
+				var user = await _userService.GetUserByUserModel(model);
 				if (user != null)
 				{
 					await Authenticate(model.Name, user.Role); // аутентификация
@@ -72,15 +73,14 @@ namespace Billing.Controllers
 		}
 		
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> RegisterClient(RegisterModel model)
+		public async Task<IActionResult> RegisterClient(UserModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				var user = await _userService.GetUserByName(model.Name);
 				if (user == null)
 				{
-					var create_task			= _userService.CreateUserByRegisterModel(model, UserService.CLIENT_ROLE);
+					var create_task			= _userService.CreateUserWithUserModel(model, UserService.CLIENT_ROLE);
 					var authenticate_task	= Authenticate(model.Name, UserService.CLIENT_ROLE);
 					
 					await Task.WhenAll(create_task, authenticate_task);

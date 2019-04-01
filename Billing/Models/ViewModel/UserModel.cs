@@ -2,8 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Billing.Models.ViewModel
 {
-	public class RegisterModel
+	public class UserModel
 	{
+		public int Id { get; set; }
+		
 		[Required(ErrorMessage = "Не указано имя")]
 		public string Name { get; set; }
          

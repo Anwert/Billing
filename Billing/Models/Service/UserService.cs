@@ -19,32 +19,11 @@ namespace Billing.Models.Service
 			_userRepository = user_repository;
 		}
 
-		public async Task<int> Create(User user)
+		public async Task<int> CreateUserWithUserModel(UserModel model, string role)
 		{
-			return await _userRepository.Create(user);
-		}
-
-		public async Task<int> CreateUserByRegisterModel(RegisterModel model, string role)
-		{
-			var user = new User
-			{
-				Name		= model.Name,
-				Contacts	= model.Contacts,
-				Password	= model.Password,
-				Role		= role
-			};
+			var user = GetUserByModel(model, role);
 
 			return await _userRepository.Create(user);
-		}
-
-		public async Task Delete(int id)
-		{
-			await _userRepository.Delete(id);
-		}
-
-		public async Task<IEnumerable<User>> GetUsers()
-		{
-			return await _userRepository.GetUsers();
 		}
 
 		public async Task<User> GetUserById(int id)
@@ -52,17 +31,12 @@ namespace Billing.Models.Service
 			return await _userRepository.GetUserById(id);
 		}
 
-		public async Task Update(User user)
-		{
-			await _userRepository.Update(user);
-		}
-
 		public async Task<IEnumerable<User>> GetClients()
 		{
 			return await _userRepository.GetClients();
 		}
 
-		public async Task<User> GetUserByLoginModel(LoginModel model)
+		public async Task<User> GetUserByUserModel(UserModel model)
 		{
 			var user = await _userRepository.GetUserByName(model.Name);
 			
@@ -88,17 +62,60 @@ namespace Billing.Models.Service
 			return new ClaimsPrincipal(claims_identity);
 		}
 
-		public async Task<int> CreateClient(ClientModel model)
+		public async Task<int> CreateClientWithUserModel(UserModel model)
 		{
-			var user = new User
+			var client  = GetUserByModel(model);
+			
+			return await _userRepository.Create(client);
+		}
+		
+		public async Task<UserModel> GetUserModelById(int id)
+		{
+			var client = await _userRepository.GetUserById(id);
+			
+			return GetModelByUser(client);
+		}
+		
+		public async Task UpdateUserWithUserModel(UserModel model)
+		{
+			var client = GetUserByModel(model);
+			
+			await _userRepository.Update(client);
+		}
+		
+		private User GetUserByModel(UserModel model)
+		{
+			return new User
 			{
+				Id			= model.Id,
 				Name		= model.Name,
 				Contacts	= model.Contacts,
 				Password	= model.Password,
 				Role		= CLIENT_ROLE
 			};
-			
-			return await _userRepository.Create(user);
+		}
+		
+		private User GetUserByModel(UserModel model, string role)
+		{
+			return new User
+			{
+				Id			= model.Id,
+				Name		= model.Name,
+				Contacts	= model.Contacts,
+				Password	= model.Password,
+				Role		= role
+			};
+		}
+		
+		private UserModel GetModelByUser(User user)
+		{
+			return new UserModel
+			{
+				Id			= user.Id,
+				Name		= user.Name,
+				Contacts	= user.Contacts,
+				Password	= user.Password
+			};
 		}
 	}
 }

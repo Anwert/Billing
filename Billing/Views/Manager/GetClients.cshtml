@@ -1,0 +1,55 @@
+@model IEnumerable<User>
+@{
+	ViewBag.Title = "GetClients";
+}
+
+@section links
+{
+	<link rel="stylesheet" href="~/manager/css/getClients.css">
+}
+
+<partial name="_ManagerMenuPartial" />
+
+<div class="container body-content">
+	
+	<h2>Клиенты</h2>
+	
+	<p>
+		@Html.ActionLink("Добавить клиента", "CreateClient", "Manager")
+	</p>
+	
+	<div class="form-group has-search">
+		<input type="text" id="search" class="form-control" placeholder="Поиск">
+	</div>
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Имя</th>
+			<th>Контакты</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		@foreach (var client in Model)
+		{
+			<tr class="table-row" onclick="location.href = '@(Url.Action("GetClient", "Manager", new { id = client.Id }))'">
+				<td class="searchable">
+					@client.Id
+				</td>
+				<td class="searchable">
+					@client.Name
+				</td>
+				<td class="searchable">
+					@client.Contacts
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+	
+</div>
+
+@section scripts {
+	<script src="~/manager/js/getClients.js"></script>
+} 
