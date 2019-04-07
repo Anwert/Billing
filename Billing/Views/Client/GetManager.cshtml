@@ -1,0 +1,25 @@
+@model User
+@{
+	ViewBag.Title = "Manager";
+}
+
+<partial name="_ClientMenuPartial" />
+
+<div class="container">
+	
+	<h2>Информация о менеджере</h2>
+	
+	<a href='javascript:history.go(-1)'>Назад</a>
+	
+	<div>
+		<div>
+			<h4>Имя</h4>
+			<p>@Model.Name</p>
+		</div>
+		<div>
+			<h4>Контактная информация</h4>
+			<p>@Model.Contacts</p>
+		</div>
+	</div>
+	
+</div>

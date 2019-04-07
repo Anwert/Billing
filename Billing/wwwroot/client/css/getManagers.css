@@ -1,0 +1,7 @@
+.table-row{
+	cursor: pointer;
+}
+
+.table-row:hover{
+	opacity: 0.5;
+}

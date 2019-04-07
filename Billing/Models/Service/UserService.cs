@@ -28,8 +28,10 @@ namespace Billing.Models.Service
 
 		public async Task<User> GetUserById(int id) => await _userRepository.GetUserById(id);
 
-		public async Task<IEnumerable<User>> GetClients() => await _userRepository.GetClients();
+		public async Task<IEnumerable<User>> GetClients() => await _userRepository.GetUsersWithRole(CLIENT_ROLE);
 
+		public async Task<IEnumerable<User>> GetManagers() => await _userRepository.GetUsersWithRole(MANAGER_ROLE);
+		
 		public async Task<User> GetUserByUserModel(UserModel model)
 		{
 			var user = await _userRepository.GetUserByName(model.Name);
@@ -64,7 +66,9 @@ namespace Billing.Models.Service
 		{
 			var client = await _userRepository.GetUserById(id);
 			
-			return GetModelByUser(client);
+			return client?.Role == CLIENT_ROLE
+				? GetModelByUser(client)
+				: null;
 		}
 		
 		public async Task UpdateUserWithUserModel(UserModel model)

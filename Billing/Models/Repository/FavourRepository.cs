@@ -36,5 +36,43 @@ from	favour
 ");
 			}
 		}
+
+		public async Task<Favour> GetFavourByName(string name)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QuerySingleOrDefaultAsync<Favour>($@"
+select	favour	{nameof(Favour.Id)},
+		name	{nameof(Favour.Name)}
+from	favour
+where	name = @{nameof(name)}
+", new { name });
+			}		}
+
+		public async Task Create(Favour favour)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				await conn.ExecuteAsync($@"
+insert	favour (name)
+values	(@{nameof(Favour.Name)})
+", favour);
+			}
+		}
+		
+		public async Task Update(Favour favour)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				await conn.ExecuteAsync($@"
+update	favour
+set		name	= @{nameof(Favour.Name)}
+where	favour	= @{nameof(Favour.Id)}
+", favour);
+			}
+		}
 	}
 }

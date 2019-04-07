@@ -19,9 +19,30 @@ namespace Billing.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			var client_id	= _userService.GetUserByName(User.Identity.Name).Id;
-			var contracts	= await _contractService.GetContractsForClient(client_id);
+			var client		= await _userService.GetUserByName(User.Identity.Name);
+			var contracts	= await _contractService.GetContractsForClient(client.Id);
+			
 			return View(contracts);
 		}
+		
+		public async Task<IActionResult> GetManagers()
+		{
+			var managers = await _userService.GetManagers();
+			
+			return View(managers);
+		}
+		
+		public async Task<IActionResult> GetManager(int id)
+		{
+			var manager = await _userService.GetUserById(id);
+			
+			if (manager.Role == UserService.MANAGER_ROLE)
+			{
+				return View(manager);
+			}
+			return RedirectToAction("Forbidden", "Account");
+		}
+		
+		
 	}
 }

@@ -7,6 +7,9 @@
 
 <div class="container body-content">
 	
+	<p>Вы можете связаться с нами по номеру 8800755022 или связаться с конкретным @Html.ActionLink("менеджером", "GetManagers", "Client")</p>
+	<br />
+	
 	<h2>Мои договоры</h2>
 	
 	<div class="form-group has-search">
@@ -32,10 +35,8 @@
 					@contract.Id
 				</td>
 				<td class="searchable">
-					@contract.Manager.Name
-				</td>
-				<td class="searchable">
-					@contract.Client.Name
+					@Html.ActionLink(contract.Manager.Name, "GetManager", "Client",
+						new { id = contract.Manager.Id }, null)
 				</td>
 				<td class="searchable">
 					@contract.Favour.Name

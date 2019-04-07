@@ -18,6 +18,6 @@ namespace Billing.Models.Repository
 
 		Task<User> GetUserByName(string name);
 		
-		Task<IEnumerable<User>> GetClients();
+		Task<IEnumerable<User>> GetUsersWithRole(string role);
 	}
 }

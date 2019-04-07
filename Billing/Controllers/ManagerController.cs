@@ -111,6 +111,11 @@ namespace Billing.Controllers
 		public async Task<IActionResult> GetClient(int id)
 		{
 			var client = await _userService.GetUserModelById(id);
+			
+			if (client == null)
+			{
+				return View("NoSuchClient");
+			}
 			return View(client);
 		}
 		
@@ -133,6 +138,70 @@ namespace Billing.Controllers
 			}
 			
 			return View("GetClient", model);
+		}
+		
+		public async Task<IActionResult> GetFavours()
+		{
+			var favours = await _favourService.GetFavours();
+			
+			return View(favours);
+		}
+		
+		[HttpGet]
+		public IActionResult CreateFavour()
+		{
+			return View();
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> CreateFavour(FavourModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var favour = await _favourService.GetFavourByName(model.Name);
+				if (favour == null)
+				{
+					await _favourService.CreateFavourWithFavourModel(model);
+					
+					return RedirectToAction("GetFavours", "Manager");
+				}
+				
+				ModelState.AddModelError("GlobalError", "Такая услуга уже существует");
+			}
+			
+			return View(model);
+		}
+		
+		[HttpGet]
+		public async Task<IActionResult> GetFavour(int id)
+		{
+			var favour = await _favourService.GetFavourModelById(id);
+			
+			if (favour == null)
+			{
+				return View("NoSuchFavour");
+			}
+			return View(favour);
+		}
+		
+		[HttpPost]
+		public async Task<IActionResult> EditFavour(FavourModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var favour 				= await _favourService.GetFavourById(model.Id);
+				var possible_favour		= await _favourService.GetFavourByName(model.Name);
+				if (favour.Name == model.Name || possible_favour == null)
+				{
+					await _favourService.UpdateFavourWithFavourModel(model);
+					
+					return RedirectToAction("GetFavours", "Manager");
+				}
+				
+				ModelState.AddModelError("GlobalError", "Такая услуга уже существует.");
+			}
+			
+			return View("GetFavour", model);
 		}
 		
 		private async Task<User> GetCurrentManager()

@@ -9,5 +9,11 @@ namespace Billing.Models.Repository
 		Task<Favour> GetFavourById(int id);
 		
 		Task<IEnumerable<Favour>> GetFavours();
+		
+		Task<Favour> GetFavourByName(string name);
+		
+		Task Create(Favour favour);
+		
+		Task Update(Favour favour);
 	}
 }

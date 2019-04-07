@@ -14,6 +14,8 @@ namespace Billing.Models.Service
 
 		Task<IEnumerable<User>>GetClients();
 		
+		Task<IEnumerable<User>>GetManagers();
+		
 		Task<User> GetUserByUserModel(UserModel model);
 		
 		Task<User> GetUserByName(string name);

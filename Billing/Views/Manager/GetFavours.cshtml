@@ -1,0 +1,50 @@
+@model IEnumerable<Favour>
+@{
+	ViewBag.Title = "Favours";
+}
+@section links
+{
+	<link rel="stylesheet" href="~/manager/css/getFavours.css">
+}
+
+<partial name="_ManagerMenuPartial" />
+
+<div class="container body-content">
+	
+	<h2>Услуга</h2>
+	
+	<p>
+		@Html.ActionLink("Добавить услугу", "CreateFavour", "Manager")
+	</p>
+	
+	<div class="form-group has-search">
+		<input type="text" id="search" class="form-control" placeholder="Поиск">
+	</div>
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Название</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+		@foreach (var favour in Model)
+		{
+			<tr class="table-row" onclick="location.href = '@(Url.Action("GetFavour", "Manager", new { id = favour.Id }))'">
+				<td class="searchable">
+					@favour.Id
+				</td>
+				<td class="searchable">
+					@favour.Name
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+	
+</div>
+
+@section scripts {
+	<script src="~/manager/js/getFavours.js"></script>
+} 
