@@ -204,6 +204,21 @@ namespace Billing.Controllers
 			return View("GetFavour", model);
 		}
 		
+		[HttpDelete]
+		public async Task<IActionResult> DeleteFavour(int id)
+		{
+			try
+			{
+				await _favourService.Delete(id);
+				
+				return Json(new { error = false });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { error = true, message = ex.Message });
+			}
+		}
+		
 		private async Task<User> GetCurrentManager()
 		{
 			return await _userService.GetUserByName(User.Identity.Name);

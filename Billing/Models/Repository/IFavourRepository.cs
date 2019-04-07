@@ -15,5 +15,7 @@ namespace Billing.Models.Repository
 		Task Create(Favour favour);
 		
 		Task Update(Favour favour);
+		
+		Task Delete(int id);
 	}
 }

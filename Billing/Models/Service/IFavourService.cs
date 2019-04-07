@@ -18,5 +18,7 @@ namespace Billing.Models.Service
 		Task<FavourModel> GetFavourModelById(int id);
 		
 		Task UpdateFavourWithFavourModel(FavourModel model);
+		
+		Task Delete(int id);
 	}
 }

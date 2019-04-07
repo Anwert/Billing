@@ -33,7 +33,18 @@
 		<tbody>
 		@foreach (var contract in Model)
 		{
-			<tr>
+			<tr class="@switch (contract.Status.Id)
+			    {
+					case 2:
+						@:table-success
+						break;
+					case 3:
+						@:table-danger
+						break;
+					default:
+						@:table-warning
+						break;
+				}">
 				<td class="searchable">
 					@contract.Id
 				</td>
@@ -45,17 +56,11 @@
 						new { id = contract.Client.Id }, null)
 				</td>
 				<td class="searchable">
-					@contract.Favour.Name
+					@(contract.Favour?.Name ?? "Услуга удалена")
 				</td>
 				<td>
 					@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id),
-						nameof(Status.Name), contract.Status.Id), new {@class = "status"})
-				</td>
-				<td>
-					@* TODO: удалить это *@
-					@* @Html.ActionLink("Edit |", "UpdateCustomer", new { id =  item.Id})*@
-					@* @Html.ActionLink("Details", "Details", new { id =  item.Id})*@
-					@* @Html.ActionLink("Delete", "Delete", new { id =  item.Id})*@
+						nameof(Status.Name), contract.Status.Id), new { @class = "status" })
 				</td>
 			</tr>
 		}

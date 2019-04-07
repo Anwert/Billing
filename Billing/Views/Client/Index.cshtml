@@ -21,7 +21,6 @@
 		<tr>
 			<th>Id</th>
 			<th>Менеджер</th>
-			<th>Клиент</th>
 			<th>Услуга</th>
 			<th>Статус</th>
 		</tr>
@@ -30,7 +29,18 @@
 		<tbody>
 		@foreach (var contract in Model)
 		{
-			<tr>
+			<tr class="@switch (contract.Status.Id)
+				{
+					case 2:
+						@:table-success
+						break;
+					case 3:
+						@:table-danger
+						break;
+					default:
+						@:table-warning
+						break;
+				}">
 				<td class="searchable">
 					@contract.Id
 				</td>

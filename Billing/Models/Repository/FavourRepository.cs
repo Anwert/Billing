@@ -74,5 +74,17 @@ where	favour	= @{nameof(Favour.Id)}
 ", favour);
 			}
 		}
+		
+		public async Task Delete(int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				await conn.ExecuteAsync($@"
+delete	from favour
+where	favour = @{nameof(id)}
+", new { id });
+			}
+		}
 	}
 }

@@ -17,7 +17,7 @@ values ('favour1')
 select @favour_id = scope_identity()
 
 insert status (name)
-values ('status1')
+values ('Обрабатывается')
 select @status_id = scope_identity()
 
 insert [user] (name, password, contacts, role)
@@ -33,7 +33,7 @@ values ('favour2')
 select @favour_id = scope_identity()
 
 insert status (name)
-values ('status2')
+values ('Обслуживается')
 select @status_id = scope_identity()
 
 insert [user] (name, password, contacts, role)
@@ -42,3 +42,7 @@ select @client_id = scope_identity()
 
 insert contract (manager, client, favour, [status])
 values (@manager_id, @client_id, @favour_id, @status_id)
+
+insert status (name)
+values ('Расторгнут')
+select @status_id = scope_identity()

@@ -2,10 +2,6 @@
 @{
 	ViewBag.Title = "Favours";
 }
-@section links
-{
-	<link rel="stylesheet" href="~/manager/css/getFavours.css">
-}
 
 <partial name="_ManagerMenuPartial" />
 
@@ -25,18 +21,27 @@
 		<tr>
 			<th>Id</th>
 			<th>Название</th>
+			<th>Действие</th>
 		</tr>
 		</thead>
 		
 		<tbody>
 		@foreach (var favour in Model)
 		{
-			<tr class="table-row" onclick="location.href = '@(Url.Action("GetFavour", "Manager", new { id = favour.Id }))'">
+			<tr>
 				<td class="searchable">
 					@favour.Id
 				</td>
 				<td class="searchable">
 					@favour.Name
+				</td>
+				<td>
+					<div class="form-group">
+						<input type="button" class="btn btn-outline-primary btn-sm" value="Редактировать"
+							onclick="location.href='@Url.Action("GetFavour", "Manager", new { id = favour.Id})'" />
+						|
+						<input type="button" class="btn btn-outline-danger btn-sm delete-favour" value="Удалить" />
+					</div>
 				</td>
 			</tr>
 		}

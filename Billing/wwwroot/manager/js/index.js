@@ -1,7 +1,13 @@
 $(document).ready(function() {
-	$(".status").change(function() {
+	var previousStatusId;
+	var currentDropBox;
+	$(".status").on('focus', function () {
+		currentDropBox = this;
+		previousStatusId = this.value;
+	}).change(function() {
 		var newStatusId = this.value;
-		var contractId = $(this).closest('tr').children('td:first').text();
+		var currentRow = $(this).closest('tr');
+		var contractId = currentRow.children('td:first').text();
 		$.ajax({
 			type: 'POST',
 			url: '/Manager/UpdateStatusForContract',
@@ -12,10 +18,25 @@ $(document).ready(function() {
 			success: function (result) {
 				if (result.error) {
 					alert("Произошла ошибка: " + result.message);
+					currentDropBox.value = previousStatusId;
+				} else {
+					currentRow.removeClass();
+					switch (newStatusId) {
+						case "2":
+							currentRow.addClass("table-success");
+							break;
+						case "3":
+							currentRow.addClass("table-danger");
+							break;
+						default:
+							currentRow.addClass("table-warning");
+							break;
+					}
 				}
 			},
-			failure: function(errMsg) {
-				alert("Произошла ошибка: " + errMsg);
+			error: function() {
+				alert("Произошла ошибка.");
+				currentDropBox.value = previousStatusId;
 			}
 		});
 	});

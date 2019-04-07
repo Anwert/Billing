@@ -42,6 +42,8 @@ namespace Billing.Models.Service
 			await _favourRepository.Update(favour);
 		}
 
+		public Task Delete(int id) => _favourRepository.Delete(id);
+
 		private Favour GetFavourByModel(FavourModel model)
 		{
 			return new Favour

@@ -22,7 +22,7 @@ if exists(select * from information_schema.tables where table_name = 'favour')
 create table favour
 (
 	favour int identity(1, 1) primary key,
-	name varchar(max)
+	name nvarchar(max)
 )
 
 if exists(select * from information_schema.tables where table_name = 'status')
@@ -30,7 +30,7 @@ if exists(select * from information_schema.tables where table_name = 'status')
 create table status
 (
 	status int identity(1, 1) primary key,
-	name varchar(max)
+	name nvarchar(max)
 )
 
 if exists(select * from information_schema.tables where table_name = 'user')
@@ -38,16 +38,9 @@ if exists(select * from information_schema.tables where table_name = 'user')
 create table [user]
 (
 	[user] int identity(1, 1) primary key,
-	name varchar(max),
-	password varchar(max),
-	contacts varchar(max),
-	role varchar(max)
+	name nvarchar(max),
+	password nvarchar(max),
+	contacts nvarchar(max),
+	role nvarchar(max)
 )
 go
-
--- SELECT * FROM [user]
-
--- грфик исполнения услуги
--- сторону с нашей стороны добавить
-
--- поиск сделать
