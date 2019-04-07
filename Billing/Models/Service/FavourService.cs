@@ -14,14 +14,8 @@ namespace Billing.Models.Service
 			_favourRepository = favour_repository;
 		}
 		
-		public async Task<Favour> GetFavourById(int id)
-		{
-			return await _favourRepository.GetFavourById(id);
-		}
+		public async Task<Favour> GetFavourById(int id) =>  await _favourRepository.GetFavourById(id);
 
-		public async Task<IEnumerable<Favour>> GetFavours()
-		{
-			return await _favourRepository.GetFavours();
-		}
+		public async Task<IEnumerable<Favour>> GetFavours() => await _favourRepository.GetFavours();
 	}
 }

@@ -1,8 +1,54 @@
-@model Contract
+@model IEnumerable<Contract>
 @{
-	ViewBag.Title = "Client";
+	ViewBag.Title	= "Contracts";
 }
 
 <partial name="_ClientMenuPartial" />
 
-<div>Hello client @User.Identity.Name!</div>
+<div class="container body-content">
+	
+	<h2>Мои договоры</h2>
+	
+	<div class="form-group has-search">
+		<input type="text" id="search" class="form-control" placeholder="Поиск">
+	</div>
+	
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Менеджер</th>
+			<th>Клиент</th>
+			<th>Услуга</th>
+			<th>Статус</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		@foreach (var contract in Model)
+		{
+			<tr>
+				<td class="searchable">
+					@contract.Id
+				</td>
+				<td class="searchable">
+					@contract.Manager.Name
+				</td>
+				<td class="searchable">
+					@contract.Client.Name
+				</td>
+				<td class="searchable">
+					@contract.Favour.Name
+				</td>
+				<td class="searchable">
+					@contract.Status.Name
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+</div>
+
+@section scripts {
+	<script src="~/client/js/index.js"></script>
+}

@@ -26,7 +26,26 @@ namespace Billing.Models.Service
 		public async Task<IEnumerable<Contract>> GetContracts()
 		{
 			var contracts = await _contractRepository.GetContracts();
+			await FillContractsFields(contracts);
 			
+			return contracts;
+		}
+
+		public async Task Create(Contract contract) => await _contractRepository.Create(contract);
+
+		public async Task UpdateStatusForContract(int new_status_id, int contract_id) => 
+			await _contractRepository.UpdateStatusForContract(new_status_id, contract_id);
+		
+		public async Task<IEnumerable<Contract>> GetContractsForClient(int client_id)
+		{
+			var contracts = await _contractRepository.GetContractsForClient(client_id);
+			await FillContractsFields(contracts);
+			
+			return contracts;
+		}
+		
+		private async Task FillContractsFields(IEnumerable<Contract> contracts)
+		{
 			foreach (var contract in contracts)
 			{
 				var manager_task	= _userService.GetUserById(contract.Manager.Id);
@@ -41,18 +60,6 @@ namespace Billing.Models.Service
 				contract.Favour		= favour_task.Result;
 				contract.Status		= status_task.Result;
 			}
-			
-			return contracts;
-		}
-
-		public async Task Create(Contract contract)
-		{
-			await _contractRepository.Create(contract);
-		}
-
-		public async Task UpdateStatusForContract(int new_status_id, int contract_id)
-		{
-			await _contractRepository.UpdateStatusForContract(new_status_id, contract_id);
 		}
 	}
 }

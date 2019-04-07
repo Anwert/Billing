@@ -33,7 +33,7 @@
 		<tbody>
 		@foreach (var contract in Model)
 		{
-			<tr id="row-@contract.Id">
+			<tr>
 				<td class="searchable">
 					@contract.Id
 				</td>
@@ -65,4 +65,4 @@
 
 @section scripts {
 	<script src="~/manager/js/index.js"></script>
-} 
+}

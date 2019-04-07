@@ -126,7 +126,6 @@ namespace Billing.Controllers
 				{
 					await _userService.UpdateUserWithUserModel(model);
 					
-//					TODO: надо подумать куда его редиректить потом
 					return RedirectToAction("GetClients", "Manager");
 				}
 				

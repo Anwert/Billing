@@ -67,5 +67,34 @@ where 	contract	= @{nameof(contract_id)}
 ", new { new_status_id, contract_id });
 			}
 		}
+		
+		public async Task<IEnumerable<Contract>> GetContractsForClient(int client_id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				return await conn.QueryAsync<Contract, User, User, Favour, Status, Contract>($@"
+select	contract	{nameof(Contract.Id)},
+		manager		{nameof(Contract.Manager.Id)},
+		client		{nameof(Contract.Client.Id)},
+		favour		{nameof(Contract.Favour.Id)},
+		status		{nameof(Contract.Status.Id)}
+from	contract cn
+where	client = @{nameof(client_id)}
+", param: new { client_id }, map: (contract, manager, client, favour, status) =>
+					{
+						contract.Manager	= manager;
+						contract.Client		= client;
+						contract.Favour		= favour;
+						contract.Status		= status;
+						return contract;
+					},
+					splitOn:	$"{nameof(Contract.Manager.Id)}," +
+								$"{nameof(Contract.Client.Id)}," +
+								$"{nameof(Contract.Favour.Id)}," +
+								$"{nameof(Contract.Status.Id)}");
+			}
+		}
+
 	}
 }

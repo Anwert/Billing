@@ -11,5 +11,7 @@ namespace Billing.Models.Repository
 		Task Create(Contract contract);
 		
 		Task UpdateStatusForContract(int new_status_id, int contract_id);
+		
+		Task<IEnumerable<Contract>> GetContractsForClient(int client_id);
 	}
 }

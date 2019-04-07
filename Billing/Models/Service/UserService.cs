@@ -26,15 +26,9 @@ namespace Billing.Models.Service
 			return await _userRepository.Create(user);
 		}
 
-		public async Task<User> GetUserById(int id)
-		{
-			return await _userRepository.GetUserById(id);
-		}
+		public async Task<User> GetUserById(int id) => await _userRepository.GetUserById(id);
 
-		public async Task<IEnumerable<User>> GetClients()
-		{
-			return await _userRepository.GetClients();
-		}
+		public async Task<IEnumerable<User>> GetClients() => await _userRepository.GetClients();
 
 		public async Task<User> GetUserByUserModel(UserModel model)
 		{
@@ -43,10 +37,7 @@ namespace Billing.Models.Service
 			return user?.Password == model.Password ? user : null;
 		}
 
-		public async Task<User> GetUserByName(string name)
-		{
-			return await _userRepository.GetUserByName(name);
-		}
+		public async Task<User> GetUserByName(string name) => await _userRepository.GetUserByName(name);
 		
 		public ClaimsPrincipal GetClaimsPrincipal(string name, string role)
 		{

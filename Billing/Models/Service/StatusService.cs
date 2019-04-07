@@ -14,14 +14,8 @@ namespace Billing.Models.Service
 			_statusRepository = status_repository;
 		}
 		
-		public async Task<Status> GetStatusById(int id)
-		{
-			return await _statusRepository.GetStatusById(id);
-		}
+		public async Task<Status> GetStatusById(int id) => await _statusRepository.GetStatusById(id);
 
-		public async Task<IEnumerable<Status>> GetStatuses()
-		{
-			return await _statusRepository.GetStatuses();
-		}
+		public async Task<IEnumerable<Status>> GetStatuses() => await _statusRepository.GetStatuses();
 	}
 }
