@@ -52,7 +52,7 @@ namespace Billing.Controllers
 			if (ModelState.IsValid)
 			{
 				var user = await _userService.GetUserByUserModel(model);
-				if (user != null)
+				if (user != null && user.Password == model.Password)
 				{
 					await Authenticate(model.Name, user.Role); // аутентификация
 
