@@ -9,6 +9,9 @@ namespace Billing.Models.ViewModel
 		[Required(ErrorMessage = "Не указано имя")]
 		public string Name { get; set; }
 		
+		[Required(ErrorMessage = "Не указана цена")]
+		public decimal? Cost { get; set; }
+		
 		public string GlobalError { get; set;  }
 	}
 }

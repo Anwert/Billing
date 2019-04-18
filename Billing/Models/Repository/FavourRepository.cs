@@ -17,7 +17,8 @@ namespace Billing.Models.Repository
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<Favour>($@"
 select	favour	{nameof(Favour.Id)},
-		name	{nameof(Favour.Name)}
+		name	{nameof(Favour.Name)},
+		cost	{nameof(Favour.Cost)}
 from	favour
 where	favour = @{nameof(id)}
 ", new { id });
@@ -31,7 +32,8 @@ where	favour = @{nameof(id)}
 				conn.Open();
 				return await conn.QueryAsync<Favour>($@"
 select	favour	{nameof(Favour.Id)},
-		name	{nameof(Favour.Name)}
+		name	{nameof(Favour.Name)},
+		cost	{nameof(Favour.Cost)}
 from	favour
 ");
 			}
@@ -44,7 +46,8 @@ from	favour
 				conn.Open();
 				return await conn.QuerySingleOrDefaultAsync<Favour>($@"
 select	favour	{nameof(Favour.Id)},
-		name	{nameof(Favour.Name)}
+		name	{nameof(Favour.Name)},
+		cost	{nameof(Favour.Cost)}
 from	favour
 where	name = @{nameof(name)}
 ", new { name });
@@ -56,8 +59,8 @@ where	name = @{nameof(name)}
 			{
 				conn.Open();
 				await conn.ExecuteAsync($@"
-insert	favour (name)
-values	(@{nameof(Favour.Name)})
+insert	favour (name, cost)
+values	(@{nameof(Favour.Name)}, @{nameof(Favour.Cost)})
 ", favour);
 			}
 		}
@@ -69,7 +72,8 @@ values	(@{nameof(Favour.Name)})
 				conn.Open();
 				await conn.ExecuteAsync($@"
 update	favour
-set		name	= @{nameof(Favour.Name)}
+set		name	= @{nameof(Favour.Name)},
+		cost	= @{nameof(Favour.Cost)}
 where	favour	= @{nameof(Favour.Id)}
 ", favour);
 			}

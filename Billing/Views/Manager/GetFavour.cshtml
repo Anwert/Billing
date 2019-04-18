@@ -22,9 +22,14 @@
 		<div>
 			<input asp-for="Id" type="hidden" value="@Model.Id" />
 			<div>
-				<label asp-for="Name">Имя</label><br/>
+				<label asp-for="Name">Название</label><br/>
 				<input type="text" asp-for="Name" value="@Model.Name"/>
 				<span asp-validation-for="Name" class="text-danger"/>
+			</div>
+			<div>
+				<label asp-for="Cost">Цена</label><br/>
+				<input type="text" asp-for="Cost" value="@Model.Cost"/>
+				<span asp-validation-for="Cost" class="text-danger"/>
 			</div>
 			<br/>
 			<div >

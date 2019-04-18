@@ -22,6 +22,7 @@
 			<th>Id</th>
 			<th>Менеджер</th>
 			<th>Услуга</th>
+			<th>Цена услуги</th>
 			<th>Статус</th>
 		</tr>
 		</thead>
@@ -49,7 +50,10 @@
 						new { id = contract.Manager.Id }, null)
 				</td>
 				<td class="searchable">
-					@contract.Favour.Name
+					@(contract.Favour?.Name ?? "Услуга удалена")
+				</td>
+				<td class="searchable">
+					@(contract.Favour?.Cost != null ? $"{contract.Favour?.Cost} $" : "0")
 				</td>
 				<td class="searchable">
 					@contract.Status.Name

@@ -26,6 +26,7 @@
 			<th>Менеджер</th>
 			<th>Клиент</th>
 			<th>Услуга</th>
+			<th>Цена услуги</th>
 			<th>Статус</th>
 		</tr>
 		</thead>
@@ -57,6 +58,9 @@
 				</td>
 				<td class="searchable">
 					@(contract.Favour?.Name ?? "Услуга удалена")
+				</td>
+				<td class="searchable">
+					@(contract.Favour?.Cost != null ? $"{contract.Favour?.Cost} $" : "0")
 				</td>
 				<td>
 					@Html.DropDownList(nameof(Status), new SelectList(statuses, nameof(Status.Id),

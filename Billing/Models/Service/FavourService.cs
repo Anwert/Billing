@@ -49,7 +49,8 @@ namespace Billing.Models.Service
 			return new Favour
 			{
 				Id		= model.Id,
-				Name	= model.Name
+				Name	= model.Name,
+				Cost	= model.Cost
 			};
 		}
 		
@@ -58,7 +59,8 @@ namespace Billing.Models.Service
 			return new FavourModel
 			{
 				Id		= favour.Id,
-				Name	= favour.Name
+				Name	= favour.Name,
+				Cost	= favour.Cost
 			};
 		}
 	}

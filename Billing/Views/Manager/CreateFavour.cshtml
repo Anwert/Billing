@@ -20,9 +20,14 @@
 	<form asp-action="CreateFavour" asp-controller="Manager" asp-anti-forgery="true">
 		<div>
 			<div>
-				<label asp-for="Name">Введите имя</label><br/>
+				<label asp-for="Name">Введите название</label><br/>
 				<input type="text" asp-for="Name"/>
 				<span asp-validation-for="Name" class="text-danger" />
+			</div>
+			<div>
+				<label asp-for="Name">Введите цену</label><br/>
+				<input type="text" asp-for="Cost"/>
+				<span asp-validation-for="Cost" class="text-danger" />
 			</div>
 			<br />
 			<div>
